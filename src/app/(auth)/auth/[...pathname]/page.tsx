@@ -12,9 +12,11 @@ export function generateStaticParams() {
 export default async function AuthPage({
   params,
 }: {
-  params: { pathname: string[] }
+  params: Promise<{ pathname: string[] }>
 }) {
-  const path = params.pathname.join("/")
+  const { pathname } = await params
+
+  const path = pathname.join("/")
 
   return (
     <main className="container flex grow flex-col items-center justify-center self-center p-4 md:p-6">
