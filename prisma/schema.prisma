@@ -6,7 +6,6 @@ generator client {
 datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL")          // pooled (runtime)
-  directUrl = env("DATABASE_URL_UNPOOLED") // direct (migrations)
 }
 
 enum SongStatus {
