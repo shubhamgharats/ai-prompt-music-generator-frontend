@@ -30,13 +30,18 @@ export default async function TrackListFetcher() {
 
   const songsWithThumbnails = await Promise.all(
     songs.map(async (song) => {
-      const thumbnailUrl = song.thumbnailS3Key
-  ? await getPresignedUrl(
-      song.thumbnailS3Key.split(".amazonaws.com/").pop() || song.thumbnailS3Key
-    )
-  : null;
+      const rawKey =
+        song.thumbnailS3Key
+          ?.split(".amazonaws.com/")
+          .pop() ?? null;
 
-      // ✅ normalize status properly
+      let thumbnailUrl: string | null = null;
+
+      if (song.thumbnailS3Key && rawKey) {
+        thumbnailUrl = await getPresignedUrl(rawKey);
+      }
+
+      // normalize status safely
       const normalizedStatus = song.status
         ? song.status.toLowerCase().replace(/_/g, " ").trim()
         : null;
@@ -52,7 +57,7 @@ export default async function TrackListFetcher() {
         fullDescribedSong: song.fullDescribedSong,
         thumbnailUrl,
         playUrl: null,
-        status: normalizedStatus, // 👈 FIXED
+        status: normalizedStatus,
         createdByUserName: song.user?.name,
         published: song.published,
       };

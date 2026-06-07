@@ -3,7 +3,8 @@ import type { Category, Song, Like } from "generated/prisma"
 import { useState } from "react";
 import { usePlayerStore } from "~/stores/use-player-store";
 import { getPlayUrl } from "~/actions/generation";
-import { Loader2, Music, Play } from "lucide-react";
+import {  Loader2, Music, Play } from "lucide-react";
+import Image from "next/image";
 import { Heart } from "lucide-react";
 import type { MouseEvent } from "react";
 import { toggleLikeSong } from "~/actions/song";
@@ -63,8 +64,18 @@ const handleLike = async (e: React.MouseEvent) => {
     return (<div>
         <div onClick={handlePlay} className="cursor-pointer">
             <div className="group relative aspect-square w-full overflow-hidden rounded-md bg-gray-200 group-hover:opacity-75">
-                {(song.thumbnailUrl? <img className="h-full w-full object-cover object-center" src={song.thumbnailUrl}/> : <div className="bg-muted flex h-full w-full items-center justify-center"><Music className="text-muted-foreground h-12 w-12"/></div>)}
-
+{song.thumbnailUrl ? (
+  <Image
+    className="object-cover object-center"
+    src={song.thumbnailUrl}
+    alt="song cover"
+    fill
+  />
+) : (
+  <div className="bg-muted flex h-full w-full items-center justify-center">
+    <Music className="text-muted-foreground h-12 w-12" />
+  </div>
+)}
                 {/* Loader */}
                 <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 transition-opacity group-hover:opacity-100">
                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-black/60 transition-transform group-hover:scale-105">

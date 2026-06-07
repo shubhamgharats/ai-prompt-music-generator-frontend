@@ -16,6 +16,7 @@ import { usePlayerStore } from "~/stores/use-player-store";
 import { Card } from "./ui/card";
 import { Button } from "./ui/button";
 import { Slider } from "~/components/ui/slider";
+import Image from "next/image";
 
 import {
   DropdownMenu,
@@ -152,10 +153,11 @@ export default function SoundBar() {
             <div className="flex min-w-0 flex-1 items-center gap-2">
               <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center overflow-hidden rounded-md bg-gradient-to-br from-purple-500 to-pink-500">
                 {track.artwork ? (
-                  <img
+                  <Image
                     src={track.artwork}
                     alt={track.title ?? ""}
                     className="h-full w-full object-cover"
+                    fill
                   />
                 ) : (
                   <Music className="text-white" />

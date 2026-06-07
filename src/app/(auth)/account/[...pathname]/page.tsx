@@ -9,12 +9,15 @@ export function generateStaticParams() {
   }));
 }
 
-export default async function AuthPage({
-  params,
-}: {
-  params: { pathname: string[] };
-}) {
-  const path = params.pathname.join("/");
+type PageProps = {
+  params: Promise<{
+    pathname: string[];
+  }>;
+};
+
+export default async function AuthPage({ params }: PageProps) {
+  const { pathname } = await params;
+  const path = pathname.join("/");
 
   return <AuthPageView pathname={path} />;
 }

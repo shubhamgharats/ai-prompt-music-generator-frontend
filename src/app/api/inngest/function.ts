@@ -17,6 +17,12 @@ type RequestBody = {
   instrumental?: boolean;
 };
 
+type ModalResponse = {
+  s3_key: string;
+  cover_image_s3_key: string;
+  categories: string[];
+};
+
 export const generateSong = inngest.createFunction(
   {
     id: "generate-song",
@@ -65,7 +71,7 @@ export const generateSong = inngest.createFunction(
           },
         });
 
-        const commonParams = {
+        const commonParams: RequestBody = {
           guidance_scale: song.guidanceScale ?? undefined,
           infer_step: song.inferStep ?? undefined,
           audio_duration: song.audioDuration ?? undefined,
@@ -98,7 +104,9 @@ export const generateSong = inngest.createFunction(
         }
 
         if (!endpoint) {
-          throw new Error("No valid generation mode found or missing env endpoints");
+          throw new Error(
+            "No valid generation mode found or missing env endpoints"
+          );
         }
 
         return {
@@ -137,17 +145,11 @@ export const generateSong = inngest.createFunction(
     });
 
     await step.run("update-song-result", async () => {
-      let responseData:
-        | {
-            s3_key: string;
-            cover_image_s3_key: string;
-            categories: string[];
-          }
-        | null = null;
+      let responseData: ModalResponse | null = null;
 
       if (response.ok) {
         try {
-          responseData = await response.json();
+          responseData = (await response.json()) as ModalResponse;
         } catch {
           responseData = null;
         }

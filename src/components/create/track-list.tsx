@@ -11,6 +11,7 @@ import { Badge } from "../ui/badge";
 import { setPublishedStatus } from "~/actions/song";
 import { useRouter } from "next/navigation";
 import { Download } from "lucide-react";
+import Image from "next/image";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -194,7 +195,7 @@ default:
       {/* Thumbnail */}
       <div className="group relative h-12 w-12 flex-shrink-0 overflow-hidden rounded-md">
         {track.thumbnailUrl ? (
-          <img
+          <Image
             src={track.thumbnailUrl}
             alt="thumbnail"
             className="h-full w-full object-cover"
