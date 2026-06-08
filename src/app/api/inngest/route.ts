@@ -1,6 +1,6 @@
 import { serve } from "inngest/next";
 import { inngest } from "../../../inngest/client";
-import { generateSong } from "./function";
+import { generateSong } from "../../../inngest/function";
 // Create an API that serves zero functions
 export const runtime = "nodejs";
 
